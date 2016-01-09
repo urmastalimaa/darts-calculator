@@ -1,13 +1,11 @@
 module DartShots(
-  allDartFinishes,
   findFinish,
-  dartFinishCount
+  showFinish
 ) where
 
 import Darts(Dart(..), dartValue)
 import Data.List (sortBy, nubBy, find)
 import Data.Function (on)
-import Data.Maybe (fromJust)
 
 singleBull = Dart 1 25
 doubleBull = Dart 1 50
@@ -45,10 +43,17 @@ expandSeries series = newSeries ++ expandSeries newSeries
         addPossibleShot shots = map (: shots) possibleShots
 
 allDartFinishes:: [[Dart]]
-allDartFinishes = filter isValidFinish $ expandSeries (map (: []) validFinishers)
+allDartFinishes = takeWhile ((<= 3) . length) .
+                  filter isValidFinish $
+                  expandSeries (map (: []) validFinishers)
 
 dartFinishCount:: [Dart] -> Int
 dartFinishCount = sum . map dartValue
 
-findFinish :: Int -> [Dart]
-findFinish count = fromJust . find (\x -> dartFinishCount x == count) $ allDartFinishes
+findFinish :: Int -> (Int, Maybe [Dart])
+findFinish count = (count, finish)
+  where finish = find ((count ==) . dartFinishCount) allDartFinishes
+
+showFinish :: Maybe [Dart] -> String
+showFinish (Just finish) = show finish
+showFinish _             = "No checkout"

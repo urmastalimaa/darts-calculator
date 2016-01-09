@@ -1,6 +1,6 @@
 import System.Environment (getArgs)
-import DartShots(findFinish)
+import DartShots(findFinish, showFinish)
 
-run = show . findFinish . read
+run = showFinish . snd . findFinish . read
 
 main = fmap (run . head) getArgs >>= putStrLn
