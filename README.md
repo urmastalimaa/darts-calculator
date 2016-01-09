@@ -11,6 +11,13 @@ E.g
 > [2,T19,D20]
 ```
 
+## Check-out table
+
+*checkout-table* calculates the check-out table for counts 40 to 180
+```
+> cabal run checkout-table
+```
+
 ### Checkout preferences
 
 * Double-bull is considered as a last resort
