@@ -15,7 +15,7 @@ outerCircleModifiers = [1..3]
 
 cartesian xs ys = [(x, y) | x <- xs, y <- ys]
 
-nonBullShots = map (uncurry Dart) $ cartesian outerCircleModifiers outerCircleValues
+nonBullShots = sortShots . map (uncurry Dart) $ cartesian outerCircleModifiers outerCircleValues
 
 sortShots = sortBy (flip compare `on` dartValue)
 
@@ -23,10 +23,10 @@ possibleShots:: [Dart]
 possibleShots = nubEqualShots nonBullShots ++ [singleBull, doubleBull]
 
 nubEqualShots:: [Dart] -> [Dart]
-nubEqualShots = nubBy ((==) `on` dartValue) . sortShots
+nubEqualShots = nubBy ((==) `on` dartValue)
 
 nubEqualSeries:: [[Dart]] -> [[Dart]]
-nubEqualSeries = nubBy ((==) `on` dartFinishCount) . sortBy (compare `on` dartFinishCount)
+nubEqualSeries = nubBy ((==) `on` dartFinishCount)
 
 -- any double can be a finishing shot
 validFinishers:: [Dart]
