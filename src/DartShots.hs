@@ -51,9 +51,8 @@ allDartFinishes = takeWhile ((<= 3) . length) .
 dartFinishCount:: [Dart] -> Int
 dartFinishCount = sum . map dartValue
 
-findFinish :: Int -> (Int, Maybe [Dart])
-findFinish count = (count, finish)
-  where finish = find ((count ==) . dartFinishCount) allDartFinishes
+findFinish :: Int ->  Maybe [Dart]
+findFinish count = find ((count ==) . dartFinishCount) allDartFinishes
 
 showFinish :: Maybe [Dart] -> String
 showFinish (Just finish) = show finish

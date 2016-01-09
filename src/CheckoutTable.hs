@@ -1,8 +1,7 @@
 import DartShots(findFinish, showFinish)
 
 tableCounts = [40..180]
-checkoutTable = map (showFinishWithCount . findFinish) tableCounts
-
-showFinishWithCount (count, finish) = show count ++ ": " ++ showFinish finish
+checkoutTable = map finishWithCount tableCounts
+  where finishWithCount count = show count ++ ": " ++ (showFinish . findFinish $ count)
 
 main = putStr . unlines $ checkoutTable
