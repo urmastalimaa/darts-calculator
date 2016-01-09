@@ -37,15 +37,16 @@ isValidFinish:: [Dart] -> Bool
 isValidFinish darts = length darts /= 2 || notElem doubleBull darts
 
 -- infinitely expand a list of dart finishes by trying every possible shot and pruning equal finishes
-expandSeries:: [[Dart]] -> [[Dart]]
-expandSeries series = newSeries ++ expandSeries newSeries
+expandDartSeries:: [[Dart]] -> [[Dart]]
+expandDartSeries series = newSeries ++ expandDartSeries newSeries
   where newSeries = nubEqualSeries . concatMap addPossibleShot $ series
         addPossibleShot shots = map (: shots) possibleShots
 
+-- a dart finish contains of at most 3 dart shots
 allDartFinishes:: [[Dart]]
 allDartFinishes = takeWhile ((<= 3) . length) .
                   filter isValidFinish $
-                  expandSeries (map (: []) validFinishers)
+                  expandDartSeries (map (: []) validFinishers)
 
 dartFinishCount:: [Dart] -> Int
 dartFinishCount = sum . map dartValue
